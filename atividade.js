@@ -7,9 +7,18 @@ const modelodeUsuario = mongoose.model('contas', new mongoose.Schema({
     email: String,
     password: String,
 }))
+const dotenv = require('dotenv')
+
+if(process.env.NODE_ENV == 'PROD'){
+    dotenv.config({path: './config/.env.prod'})
+}
+
+if(process.env.NODE_ENV == 'DEV'){
+    dotenv.config({path: './config/.env.dev'})
+}
 
 
-mongoose.connect('mongodb://localhost:27017/mydatabase')
+mongoose.connect(process.env.DBURL)
   .then(()=>{
 
     app.post('/pegar-dados', async (req,res)=>{
